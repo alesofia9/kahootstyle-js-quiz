@@ -1,98 +1,20 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById('question-container')
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
-
-let shuffledQuestions, currentQuestionIndex
-
-startButton.addEventListener('click', startGame)
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
-  setNextQuestion()
-})
-// Initiates the game when user clicks the 'Start' button. Math formula set to have questions randomized each time user takes quiz. //
-function startGame() {
-  startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
-  currentQuestionIndex = 0
-  questionContainerElement.classList.remove('hide')
-  setNextQuestion()
-}
-
-function setNextQuestion() {
-  resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
-}
-// Displays one question at a time on screen for user. When user answers question, page is refreshed with a new question. //
-function showQuestion(question) {
-  questionElement.innerText = question.question
-  question.answers.forEach(answer => {
-    const button = document.createElement('button')
-    button.innerText = answer.text
-    button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-  })
-}
-//Changes page to default layout when user moves onto next question: question w/4 answer choices.//
-function resetState() {
-  clearStatusClass(document.body)
-  nextButton.classList.add('hide')
-  while (answerButtonsElement.firstChild) {
-    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-  }
-}
-//Sets the criteria for when user selects the correct answer. Changes the 'Start' button to state 'Restart' when the user reaches the end of the quiz.//
-function selectAnswer(e) {
-  const selectedButton = e.target
-  const correct = selectedButton.dataset.correct
-  setStatusClass(document.body, correct)
-  Array.from(answerButtonsElement.children).forEach(button => {
-    setStatusClass(button, button.dataset.correct)
-  })
-  if (shuffledQuestions.length > currentQuestionIndex + 1) {
-    nextButton.classList.remove('hide')
-  } else {
-    startButton.innerText = 'Restart'
-    startButton.classList.remove('hide')
-  }
-}
-
-function setStatusClass(element, correct) {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
-  }
-}
-
-function clearStatusClass(element) {
-  element.classList.remove('correct')
-  element.classList.remove('wrong')
-}
-// Question content below. Moved to end to add/edit questions quickly. //
-const questions = [
+const question = [
   {
     question: 'Inside which HTML element do we put the JavaScript?',
     answers: [
-      { text: '<script>', correct: true },
-      { text: '<javascript>', correct: false },
-      { text: '<scripting>', correct: false },
-      { text: '<js>', correct: false }
+      { text: '< script >', correct: true },
+      { text: '< javascript >', correct: false },
+      { text: '< scripting >', correct: false },
+      { text: '< js >', correct: false }
     ]
   },
   {
     question: 'Where is the correct place to insert a JavaScript?',
     answers: [
-      { text: 'The <head> section', correct: false },
-      { text: 'The <body section>', correct: false },
-      { text: 'The <title> section ', correct: false },
-      { text: 'Both the <head> and <body> section', correct: true }
+      { text: 'The < head > section', correct: false },
+      { text: 'The < body > section>', correct: false },
+      { text: 'The < title > section ', correct: false },
+      { text: 'Both the < head > and < body > section', correct: true }
     ]
   },
   {
@@ -123,7 +45,7 @@ const questions = [
     ]
   },
   {
-    question: 'WWhich operator is used to assign a value to a variable?',
+    question: 'Which operator is used to assign a value to a variable?',
     answers: [
       { text: '+', correct: false },
       { text: '-', correct: false },
@@ -141,3 +63,117 @@ const questions = [
     ]
   }
 ]
+
+const questionElement = document.getElementById('question');
+const answerButtons = document.getElementById('answer-buttons');const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const header = document.getElementById('header');
+const questionContainerElement = document.getElementById('question-container');
+const timer = document.getElementById('timer');
+var timerCount;
+
+
+let currentQuestionIndex = 0;
+let score = 0;
+let timeLeft = document.querySelector('.time-left');
+
+startButton.addEventListener('click', startGame);
+nextButton.addEventListener('click', ()=>{
+  if(currentQuestionIndex < question.length){
+    handleNextButton();
+  }else{
+    startGame();
+  }
+})
+
+function startGame() {
+  startButton.classList.add('hide');
+  header.classList.add('hide');
+  currentQuestionIndex = 0;
+  score =0;
+  nextButton.innerHTML = 'Next';
+  questionContainerElement.classList.remove('hide');
+  showQuestion();
+  startTimer;
+}
+
+function showQuestion() {
+  resetState();
+  let currentQuestion = question[currentQuestionIndex];
+  let questionNo = currentQuestionIndex + 1;
+  questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+ currentQuestion.answers.forEach(answer => {
+    const button = document.createElement('button');
+    button.innerHTML = answer.text;
+    button.classList.add('btn');
+    answerButtons.appendChild(button);
+    if(answer.correct){
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener('click', selectAnswer);
+  })
+}
+
+function resetState() {
+  nextButton.style.display ='none';
+  while(answerButtons.firstChild){
+    answerButtons.removeChild(answerButtons.firstChild)
+  }
+}
+
+function selectAnswer(e){
+  const selectedBtn = e.target;
+  const isCorrect = selectedBtn.dataset.correct === 'true';
+  if(isCorrect){
+    selectedBtn.classList.add('correct');
+    score++;
+  }else{
+    selectedBtn.classList.add('wrong');
+  }
+  Array.from(answerButtons.children).forEach(button => {
+    if(button.dataset.correct === 'true'){
+    }
+    button.disabled = true;
+  });
+  nextButton.style.display = 'block';
+}
+
+function showScore(){
+  resetState();
+  questionElement.innerHTML = 'You scored ${score} out of ${question.length}!';
+  nextButton.innerHTML = 'Play Again';
+  nextButton.style.display = 'block';
+}
+
+function handleNextButton(){
+  currentQuestionIndex++;
+  if(currentQuestionIndex < question.length){
+    showQuestion();
+  }else{
+    showScore();
+  }
+}
+
+function startTimer() {
+  // Sets timer
+  timer = setInterval(function() {
+    timerCount--;
+    timerElement.textContent = timerCount;
+    if (timerCount >= 0) {
+      // Tests if win condition is met
+      if (isCorrect && timerCount > 0) {
+        // Clears interval and stops timer
+        clearInterval(timer);
+        winGame();
+      }
+    }
+    // Tests if time has run out
+    if (timerCount === 0) {
+      // Clears interval
+      clearInterval(timer);
+      loseGame();
+    }
+  }, 1000);
+}
+

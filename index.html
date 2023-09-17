@@ -4,19 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <script defer src="./assets/js/script.js"></script>
   <title>Pop Quiz! Javascript!</title>
 </head>
 
 <body>
-    <div class="header">
+<div id="timer" class="timer">00:00</div>
+  <div class="quiz">
+    <div id="header" class="header">
         <h1>JavaScript Quiz: Multiple Choice</h1>
-        <p> Read the following question and click on the correct answer among the 4 options for each question. <br>Watch the clock and try to answer before your time runs out! <br>Check out your high score after and try to beat it!</p>
+        <p> Read the following question and click on the correct answer among the 4 options for each question. Watch the clock and try to answer before your time runs out! <br>Check out your score after and try to beat it!</p>
     </div>
-    <div id="timer" class="time">00:00</div>
-  <div class="container">
     <div id="question-container" class="hide">
-      <div id="question">Question</div>
+      <div id="question">Question goes here.</div>
       <div id="answer-buttons" class="btn-grid">
         <button class="btn">Answer 1</button>
         <button class="btn">Answer 2</button>
@@ -29,5 +28,6 @@
       <button id="next-btn" class="next-btn btn hide">Next</button>
     </div>
   </div>
+  <script src="./assets/js/script.js"></script>
 </body>
 </html>

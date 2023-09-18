@@ -69,13 +69,13 @@ const answerButtons = document.getElementById('answer-buttons');const startButto
 const nextButton = document.getElementById('next-btn');
 const header = document.getElementById('header');
 const questionContainerElement = document.getElementById('question-container');
-const timer = document.getElementById('timer');
-var timerCount;
+var sec = 45;
+var time = setInterval(startTimer, 1000);
 
 
 let currentQuestionIndex = 0;
 let score = 0;
-let timeLeft = document.querySelector('.time-left');
+//let timeLeft = document.querySelector('.time-left');
 
 startButton.addEventListener('click', startGame);
 nextButton.addEventListener('click', ()=>{
@@ -156,24 +156,11 @@ function handleNextButton(){
 }
 
 function startTimer() {
-  // Sets timer
-  timer = setInterval(function() {
-    timerCount--;
-    timerElement.textContent = timerCount;
-    if (timerCount >= 0) {
-      // Tests if win condition is met
-      if (isCorrect && timerCount > 0) {
-        // Clears interval and stops timer
-        clearInterval(timer);
-        winGame();
-      }
+    document.getElementById('timer').innerHTML = sec + " seconds";
+    sec--;
+    if (sec == -1) {
+        clearInterval(time);
+        alert("Game Over! :(");
     }
-    // Tests if time has run out
-    if (timerCount === 0) {
-      // Clears interval
-      clearInterval(timer);
-      loseGame();
-    }
-  }, 1000);
 }
 

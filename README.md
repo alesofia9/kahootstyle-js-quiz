@@ -5,7 +5,7 @@ Webpage is geared towards user interaction to answer multiple choice questions. 
 
 ## Installation
 
-Use the link to access the site: 
+Use the link to access the site: https://alesofia9.github.io/kahootstyle-js-quiz/
 
 ## Usage
 

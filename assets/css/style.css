@@ -11,7 +11,7 @@ body {
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 127, 169);
+    background-color: orange;
 }
 
 /* Box display where questions and answer choices will appear in.*/
@@ -46,6 +46,7 @@ body {
     outline: none;
 }
 
+/* Button disabled icon for user after answer is selected. */
 .btn:hover:not([disabled]){
     border-color:aliceblue;
 }
@@ -54,14 +55,17 @@ body {
     cursor: no-drop;
 }
 
+/* Green background for when user clicks correct answer. */
 .btn.correct {
     background-color: rgb(12, 187, 9);
 }
 
+/* Red background for when user clicks wrong answer. */
 .btn.wrong {
     background-color: rgb(251, 41, 41);
 }
 
+/* Start & Next button style. */
 .start-btn {
 font-size: 1.5rem;
 font-weight: bold;
@@ -92,15 +96,18 @@ cursor: pointer;
     align-items: center;
 }
 
+/* Gets classes that need to hide. */
 .hide {
     display: none;
 }
 
+/* Text layout for instructions to quiz. */
 .header {
     text-align: center;
     font-size: large;
 }
 
+/*Adjusted timer to be enlarged and appear on left-hand side of screen. */
 .timer {
     text-align: center;
     font-size: xx-large;
